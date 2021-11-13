@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\SiteController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,12 +14,14 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', [SiteController::class, 'index'])
+    ->name('index');
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth'])->name('dashboard');
+Route::group(['middleware'=> 'auth'], function() {
+    // All routes that needs authentication goes here...
+
+    Route::get('/dashboard', [SiteController::class, 'dashboard'])
+        ->name('dashboard');
+});
 
 require __DIR__.'/auth.php';
