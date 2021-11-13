@@ -49,4 +49,12 @@ class User extends Authenticatable
     {
         return $this->hasOne(Profile::class, 'user_id', 'id');
     }
+
+    /**
+     * @inheritdoc
+     */
+    public function post()
+    {
+        return $this->hasMany(Post::class, 'author_id', 'id');
+    }
 }

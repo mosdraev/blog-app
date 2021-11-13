@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\PostController;
 use App\Http\Controllers\SiteController;
 use Illuminate\Support\Facades\Route;
 
@@ -22,6 +23,24 @@ Route::group(['middleware'=> 'auth'], function() {
 
     Route::get('/dashboard', [SiteController::class, 'dashboard'])
         ->name('dashboard');
+
+    Route::get('/author/posts', [PostController::class, 'authorPosts'])
+        ->name('authorPosts');
+
+    Route::get('/author/view-post/{id}', [PostController::class, 'viewAuthorPost'])
+        ->name('authorPost');
+
+    Route::get('/author/create', [PostController::class, 'create'])
+        ->name('create');
+
+    Route::get('/author/update-post/{id}', [PostController::class, 'updateAuthorPost'])
+        ->name('updateAuthorPost');
+
+    Route::post('/store', [PostController::class, 'store'])
+        ->name('storePost');
+
+    Route::post('/modify/{id}', [PostController::class, 'modify'])
+        ->name('modifyPost');
 });
 
 require __DIR__.'/auth.php';
