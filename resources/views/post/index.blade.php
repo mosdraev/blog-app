@@ -1,14 +1,16 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Blog Posts') }}
+            {{ __('My Blog Posts') }}
         </h2>
     </x-slot>
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="flex flex-row-reverse">
-                <a class="bg-blue-700 text-white py-2 px-3 rounded" href="{{ route('create') }}" type="button">Create New Post</a>
+                <x-default-button anchor href="{{ route('create') }}" type="button">
+                    {{  __('Create New Post')  }}
+                </x-default-button>
             </div>
             @if ($post->isEmpty())
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg mt-3">

@@ -41,6 +41,9 @@ Route::group(['middleware'=> 'auth'], function() {
 
     Route::post('/modify/{id}', [PostController::class, 'modify'])
         ->name('modifyPost');
+
+    Route::post('/destroy/{id}', [PostController::class, 'destroy'])
+        ->name('destroyPost');
 });
 
 require __DIR__.'/auth.php';

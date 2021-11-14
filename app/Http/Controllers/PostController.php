@@ -72,8 +72,8 @@ class PostController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'title' => 'string|required|min:3|max:100',
-            'content' => 'string|required|min:1|max:5000',
+            'title' => 'string|required|min:10|max:100',
+            'content' => 'string|required|min:100|max:5000',
         ]);
 
         $post = Post::create([
@@ -99,7 +99,7 @@ class PostController extends Controller
     {
         $request->validate([
             'title' => 'string|required|min:3|max:100',
-            'content' => 'string|required|min:1|max:5000',
+            'content' => 'string|required|min:100|max:5000',
         ]);
 
         $post = Post::findOrFail($request->id);
@@ -117,6 +117,26 @@ class PostController extends Controller
             if ($status)
             {
                 return redirect(route('authorPost', ['id' => $post->id]));
+            }
+        }
+    }
+
+    /**
+     * Undocumented function
+     *
+     * @return void
+     */
+    public function destroy(Request $request)
+    {
+        $post = Post::findOrFail($request->id);
+
+        if ($post->exists)
+        {
+            $status = $post->delete();
+
+            if ($status)
+            {
+                return redirect(route('authorPosts'));
             }
         }
     }

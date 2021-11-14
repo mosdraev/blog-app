@@ -9,13 +9,6 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 bg-white border-b border-gray-200">
-                    @if (count($errors) > 0)
-                    <ul id="login-validation-errors" class="validation-errors">
-                        @foreach ($errors->all() as $error)
-                        <li class="validation-error-item">{{ $error }}</li>
-                        @endforeach
-                    </ul>
-                    @endif
                     <form class="" action="{{ route('storePost') }}" method="POST">
 
                         @csrf
@@ -25,6 +18,7 @@
                             <input
                                 id="post-title" type="text" name="title" placeholder="Your post title here.."
                                 class="shadow appearance-none border rounded rounded-md w-full py-2 px-3 border-gray-300 text-gray-700">
+                            <x-input-error name="title" :errors="$errors" />
                         </div>
 
                         <div class="mb-4">
@@ -36,21 +30,22 @@
                                 name="content"
                                 placeholder="Your content here.."
                             ></textarea>
+                            <x-input-error name="content" :errors="$errors" />
                         </div>
 
                         <div class="flex flex-row-reverse space-x-4 space-x-reverse">
-                            <a href="" type="button" class="px-3 py-2 rounded text-gray-100 bg-gray-600">
-                                Go Back
-                            </a>
-                            <button type="submit" class="px-3 py-2 rounded text-white bg-blue-700">
-                                Create Post
-                            </button>
+                            <x-back-button href="{{ url()->previous() }}">
+                                {{ __('Go Back') }}
+                            </x-back-button>
+                            <x-default-button type="submit">
+                                {{  __('Create Post')  }}
+                            </x-default-button>
                             <select
                                 name="status"
-                                class="form-select block shadow appearance-none border rounded rounded-md border-gray-300 text-gray-700">
+                                class="cursor-pointer form-select block shadow appearance-none border rounded rounded-md border-gray-300 text-gray-700">
                                 <option value="0">{{ __('Draft') }}</option>
-                                <option value="1">{{ __('Private') }}</option>
-                                <option value="2">{{ __('Publish') }}</option>
+                                <option value="3">{{ __('Publish') }}</option>
+                                <option value="2">{{ __('Private') }}</option>
                             </select>
                         </div>
                     </form>
