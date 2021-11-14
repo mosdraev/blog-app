@@ -33,7 +33,7 @@
                         <p class="font-size-20 px-4 py-3 bg-white border-b border-gray-200">
                             {{ $post->title }}
                         </p>
-                        <div class="h-44 px-4 py-2 bg-white border-gray-200">
+                        <div class="px-4 py-2 bg-white border-gray-200">
                             {{ $post->content }}
                         </div>
                         <p class="italized mb-2 underline pt-1 px-4 bg-white border-t border-gray-200">
@@ -41,6 +41,18 @@
                         </p>
                     </div>
                 </div>
+            </div>
+            <div class="flex flex-row space-between">
+                <p class="p-3 mr-auto">
+                    @if (!is_null($previous))
+                        <a href="{{ route('authorPost', ['id' => $previous->id]) }}" class="text-2xl hover:underline">{{ $previous->title }}</a>
+                    @endif
+                </p>
+                <p class="p-3 ml-auto">
+                    @if (!is_null($next))
+                        <a href="{{ route('authorPost', ['id' => $next->id]) }}" class="text-2xl hover:underline">{{ $next->title }}</a>
+                    @endif
+                </p>
             </div>
         </div>
     </div>

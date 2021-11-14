@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Post;
 use Illuminate\Http\Request;
 
 class SiteController extends Controller
@@ -13,16 +14,10 @@ class SiteController extends Controller
      */
     public function index()
     {
-        return view('index');
-    }
+        $post = Post::orderBy('id', 'DESC')->with('user', 'user.profile')->get();
 
-    /**
-     * Display's dashboard page
-     *
-     * @return Illuminate\Http\Response
-     */
-    public function dashboard()
-    {
-        return view('dashboard');
+        return view('index', [
+            'post' => $post
+        ]);
     }
 }

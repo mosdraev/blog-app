@@ -5,12 +5,11 @@ namespace App\Http\Controllers;
 use App\Models\Post;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Storage;
 
 class PostController extends Controller
 {
     /**
-     * Undocumented function
+     * Displays posts of the Author
      *
      * @return void
      */
@@ -25,7 +24,7 @@ class PostController extends Controller
     }
 
     /**
-     * Undocumented function
+     * View author post
      *
      * @return void
      */
@@ -34,13 +33,23 @@ class PostController extends Controller
         $post = Post::where('id', $request->id)
             ->with('user', 'user.profile')->first();
 
+        // Get previous post
+        $previous = Post::select('id', 'title')->where('id', '<', $post->id)
+            ->orderBy('id', 'DESC')->first();
+
+        // Get next post
+        $next = Post::select('id', 'title')->where('id', '>', $post->id)
+            ->orderBy('id', 'ASC')->first();
+
         return view('post.view', [
-            'post' => $post
+            'post' => $post,
+            'previous' => $previous,
+            'next' => $next
         ]);
     }
 
     /**
-     * Undocumented function
+     * Update form page for a post
      *
      * @return void
      */
@@ -55,7 +64,7 @@ class PostController extends Controller
     }
 
     /**
-     * Undocumented function
+     * Create form page of a post
      *
      * @return void
      */
@@ -65,7 +74,7 @@ class PostController extends Controller
     }
 
     /**
-     * Undocumented function
+     * Function to save posts
      *
      * @param Request $request
      * @return void
@@ -104,7 +113,7 @@ class PostController extends Controller
     }
 
     /**
-     * Undocumented function
+     * Function to modify posts
      *
      * @param Request $request
      * @return void
@@ -120,10 +129,12 @@ class PostController extends Controller
             $file->storePubliclyAs('public/images', $imageName);
 
             $validationRules = array_merge(Post::$postValidate, Post::$imageValidate);
+            $hasNewImage = true;
         }
         else
         {
             $validationRules = Post::$postValidate;
+            $hasNewImage = false;
         }
 
         $request->validate($validationRules);
@@ -138,7 +149,7 @@ class PostController extends Controller
                     'title' => $request->title,
                     'content' => $request->content,
                     'status' => Post::$status[$request->status],
-                    'image_url' => $imageName
+                    'image_url' => ($hasNewImage) ? $imageName : $post->image_url,
                 ]);
 
             if ($status)
@@ -149,7 +160,7 @@ class PostController extends Controller
     }
 
     /**
-     * Undocumented function
+     * Function to delete posts
      *
      * @return void
      */

@@ -35,10 +35,10 @@
                                 {{ $item->title }}
                             </a>
                         </p>
-                        <div class="h-44 px-4 py-2 bg-white border-gray-200">
+                        <div class="px-4 py-2 bg-white border-gray-200">
                             {{ $item->content }}
                         </div>
-                        <p class="italized underline pt-1 px-4 bg-white border-t border-gray-200">
+                        <p class="italized underline mb-2 pt-1 px-4 bg-white border-t border-gray-200">
                             Author: {{ $item->user->profile->first_name }}, {{ $item->created_at->diffForHumans() }}
                         </p>
                     </div>

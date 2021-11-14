@@ -44,7 +44,7 @@
                                 name="status"
                                 class="cursor-pointer form-select block shadow appearance-none border rounded rounded-md border-gray-300 text-gray-700">
                                 <option value="0">{{ __('Draft') }}</option>
-                                <option value="3">{{ __('Publish') }}</option>
+                                <option value="1">{{ __('Publish') }}</option>
                                 <option value="2">{{ __('Private') }}</option>
                             </select>
 
