@@ -8,8 +8,32 @@ class Post extends Model
 {
     protected $table = 'post';
 
+    /**
+     * Post status options
+     *
+     * @var array
+     */
     public static $status = [
         'draft', 'published', 'private'
+    ];
+
+    /**
+     * Post validation rule
+     *
+     * @var array
+     */
+    public static $postValidate = [
+        'title' => 'string|required|min:10|max:100',
+        'content' => 'string|required|min:100|max:5000',
+    ];
+
+    /**
+     * Image validation rule
+     *
+     * @var array
+     */
+    public static $imageValidate = [
+        'image_url' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048'
     ];
 
     /**

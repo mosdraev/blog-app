@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Post;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class PostController extends Controller
 {
@@ -71,16 +72,29 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'title' => 'string|required|min:10|max:100',
-            'content' => 'string|required|min:100|max:5000',
-        ]);
+        $imageName = null;
+
+        if ($request->hasFile('image_url'))
+        {
+            $file = $request->file('image_url');
+            $imageName = date('Ymd_His').'_'.time() . '.' . $file->extension();
+            $file->storePubliclyAs('public/images', $imageName);
+
+            $validationRules = array_merge(Post::$postValidate, Post::$imageValidate);
+        }
+        else
+        {
+            $validationRules = Post::$postValidate;
+        }
+
+        $request->validate($validationRules);
 
         $post = Post::create([
             'author_id' => Auth::user()->id,
             'title' => $request->title,
             'content' => $request->content,
             'status' => Post::$status[$request->status],
+            'image_url' => $imageName
         ]);
 
         if ($post->exists)
@@ -97,10 +111,22 @@ class PostController extends Controller
      */
     public function modify(Request $request)
     {
-        $request->validate([
-            'title' => 'string|required|min:3|max:100',
-            'content' => 'string|required|min:100|max:5000',
-        ]);
+        $imageName = null;
+
+        if ($request->hasFile('image_url'))
+        {
+            $file = $request->file('image_url');
+            $imageName = date('Ymd_His').'_'.time() . '.' . $file->extension();
+            $file->storePubliclyAs('public/images', $imageName);
+
+            $validationRules = array_merge(Post::$postValidate, Post::$imageValidate);
+        }
+        else
+        {
+            $validationRules = Post::$postValidate;
+        }
+
+        $request->validate($validationRules);
 
         $post = Post::findOrFail($request->id);
 
@@ -112,6 +138,7 @@ class PostController extends Controller
                     'title' => $request->title,
                     'content' => $request->content,
                     'status' => Post::$status[$request->status],
+                    'image_url' => $imageName
                 ]);
 
             if ($status)

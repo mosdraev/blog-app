@@ -23,7 +23,11 @@
 
                 <div class="grid grid-cols-3 bg-white overflow-hidden shadow-sm sm:rounded-lg mt-3">
                     <div class="p-3">
-                        <img src="https://via.placeholder.com/450x300" alt="placeholder image"/>
+                        @if (is_null($item->image_url))
+                            <img src="https://via.placeholder.com/450x300" alt="Placeholder Image"/>
+                        @else
+                            <img src="{{ asset('storage/images/' . $item->image_url) }}" alt="{{ $item->image_url }}"/>
+                        @endif
                     </div>
                     <div class="col-span-2">
                         <p class="font-size-20 px-4 py-3 bg-white border-b border-gray-200">
